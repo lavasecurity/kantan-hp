@@ -24,13 +24,13 @@
 
 ## 始め方
 
-1. **このプロジェクトのコピー**を作ります（上の **Fork** または **Use this template** ボタン）。
+1. **このプロジェクトのコピー**を作ります — [**このリポジトリをFork**](https://github.com/lavasecurity/kantan-hp/fork)。
 2. **Cloudflare Pages に接続**して公開します。無料のウェブアドレスがもらえます。
 3. **`your-site.com/admin`** で記事を書き始めます。
 
 ### 手順1 — コピーを作る
-このページ上部の **Fork**（または **Use this template**）をクリックして、GitHubの自分の
-アカウントにコピーを作成します。GitHubアカウントがまだ無ければ、[github.com](https://github.com)
+**[Fork](https://github.com/lavasecurity/kantan-hp/fork)**（またはこのページ上部の **Fork** ボタン）を
+クリックして、GitHubの自分のアカウントにコピーを作成します。GitHubアカウントがまだ無ければ、[github.com](https://github.com)
 で無料で作れます。
 
 ### 手順2 — 公開する（一度だけ）

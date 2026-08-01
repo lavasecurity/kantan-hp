@@ -24,12 +24,12 @@
 
 ## 如何开始
 
-1. **复制一份**这个项目（按上方 **Fork** 或 **Use this template** 按钮）。
+1. **复制一份**这个项目 — [**Fork 此存储库**](https://github.com/lavasecurity/kantan-hp/fork)。
 2. **连接到 Cloudflare Pages** 并发布。Cloudflare 会给你一个免费的网址。
 3. 在 **`your-site.com/admin`** 开始写文章。
 
 ### 步骤 1 — 复制一份
-按此页上方的 **Fork**（或 **Use this template**），在 GitHub 账号中建立一份自己的副本。
+按 **[Fork](https://github.com/lavasecurity/kantan-hp/fork)**（或此页上方的 **Fork** 按钮），在 GitHub 账号中建立一份自己的副本。
 如果还没有 GitHub 账号，可到 [github.com](https://github.com) 免费建立。
 
 ### 步骤 2 — 发布（仅需一次）
