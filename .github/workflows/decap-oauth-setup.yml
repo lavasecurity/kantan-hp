@@ -96,6 +96,8 @@ jobs:
           echo "✅ Redeploy triggered. Env vars will apply to the new build."
 
       - name: Done
+        env:
+          PROJECT_NAME: ${{ github.event.inputs.project_name }}
         run: |
-          echo "Open https://${{ github.event.inputs.project_name }}.pages.dev/admin and log in with GitHub."
+          echo "Open https://${PROJECT_NAME}.pages.dev/admin and log in with GitHub."
           echo "If CF_DEPLOY_HOOK is not set, the env vars take effect after your next git push / deploy."
