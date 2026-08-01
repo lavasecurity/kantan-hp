@@ -9,17 +9,17 @@ The authentication is handled by **Cloudflare Pages Functions** included in this
 (`functions/api/auth.js` and `functions/api/callback.js`), so there is no external server
 to run — it deploys together with your site.
 
+There are two ways to finish the setup:
+- **[A. One-time setup Action](#a-one-time-setup-action-recommended)** — a GitHub Actions
+  workflow in this repo that writes the credentials into Cloudflare for you.
+- **[B. Manual Cloudflare setup](#b-manual-cloudflare-setup)** — if you'd rather click
+  through the Cloudflare dashboard yourself.
+
+Both start the same way: create a GitHub OAuth App.
+
 ---
 
-## What you need
-
-- Admin access to the GitHub account or organization that owns your fork of this repository.
-- Admin access to your Cloudflare Pages project.
-- A **classic GitHub OAuth App** (not a GitHub App).
-
----
-
-## Step 1 — Create a GitHub OAuth App
+## Step 1 — Create a GitHub OAuth App (both paths)
 
 1. Log in to GitHub and open **Settings → Developer settings → OAuth Apps → New OAuth App**.
 2. Fill in:
@@ -33,7 +33,30 @@ to run — it deploys together with your site.
 > If your site uses a custom domain, use that domain everywhere above (both the homepage
 > URL and the callback URL).
 
-## Step 2 — Add the credentials to Cloudflare Pages
+---
+
+## A. One-time setup Action (recommended)
+
+This repo ships a workflow (`.github/workflows/decap-oauth-setup.yml`) that pushes the
+two credentials into your Cloudflare Pages project and redeploys. You just need two
+Cloudflare secrets added once to the repository:
+
+1. Get a **Cloudflare API token** (Cloudflare Dashboard → My Profile → **API Tokens** →
+   **Create Token**) with the **"Cloudflare Pages: Edit"** permission, and your
+   **Account ID** (Dashboard → right-hand sidebar).
+2. In your GitHub repo, go to **Settings → Secrets and variables → Actions** and add:
+   - `CF_API_TOKEN` = the token above
+   - `CF_ACCOUNT_ID` = your Cloudflare account ID
+3. Go to **Actions → "Setup Decap CMS login" → Run workflow** and fill in:
+   - **Client ID** / **Client Secret** from Step 1
+   - **Project name** — the name in your `*.pages.dev` URL
+
+The workflow writes the credentials into Cloudflare Pages and redeploys your site.
+That's it — open `/admin` and log in with GitHub.
+
+---
+
+## B. Manual Cloudflare setup
 
 1. In the Cloudflare Dashboard, open your Pages project →
    **Settings → Environment variables** (or **Variables and secrets**).
@@ -43,7 +66,9 @@ to run — it deploys together with your site.
 3. Mark the secret as a **secret** so it is hidden from build logs.
 4. Save and redeploy your site so the new variables take effect.
 
-## Step 3 — Point Decap at your fork
+---
+
+## Point Decap at your fork (both paths)
 
 The only thing to update in `public/admin/config.yml` is the `repo` — set it to **your
 fork**, not the upstream:
@@ -74,7 +99,8 @@ custom domain without further configuration.
 - **"Login failed" / 404 on callback:** the authorization callback URL in GitHub doesn't
   match your site. It must be `https://<your-site>.pages.dev/api/callback`. Re-check step 1.
 - **`Missing OAUTH_GITHUB_CLIENT_ID...` error:** the environment variables aren't set, or
-  the site wasn't redeployed after adding them (step 2).
+  the site wasn't redeployed after adding them (run the setup Action again, or re-check
+  section B).
 - **Login works but nothing saves:** the person's GitHub account lacks write access to the
   repository named in `config.yml`. Grant them write access (or point `repo` at a repo they
   can write to).

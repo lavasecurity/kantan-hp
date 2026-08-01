@@ -49,7 +49,13 @@ Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Cr
 Then click **Save and Deploy**. Cloudflare does the rest — it installs, builds, and publishes automatically. You'll get a free address like `your-site.pages.dev` (you can add your own domain later).
 
 ### Step 3 — Write your first post
-Open `your-site.pages.dev/admin`, accept the "login" prompt, click **Blog → New Blog**, write your title and text, upload a picture, and press **Publish**. It goes live on your site within about a minute.
+Before you can publish, you'll log in to GitHub once (the editor uses it to save your
+posts). Follow the short **[GitHub login guide](docs/github-oauth-setup.md)** — about 5
+minutes, one time.
+
+Then open `your-site.pages.dev/admin`, click **Blog → New Blog**, write your title and
+text, upload a picture, and press **Publish**. It goes live on your site within about a
+minute.
 
 That's it. Everything else is optional.
 

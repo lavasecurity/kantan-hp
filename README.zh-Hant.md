@@ -53,7 +53,10 @@
 接著按 **Save and Deploy**。Cloudflare 會自動建置並發布。你會得到一個免費網址，例如 `your-site.pages.dev`（之後可加自己的網域）。
 
 ### 步驟 3 — 寫第一篇文章
-開啟 `your-site.pages.dev/admin`，接受登入提示 → 按 **Blog → New Blog** → 輸入標題和內文、上傳圖片，再按 **Publish**。約一分鐘後就會發布到你的網站。
+發布文章前，需要先設定一次 **GitHub 登入**（編輯器儲存文章時會用到）。請按照簡短的
+**〔GitHub 登入設定指南〕(docs/github-oauth-setup.md)** 操作（僅需一次，約 5 分鐘）。
+
+然後開啟 `your-site.pages.dev/admin` → 按 **Blog → New Blog** → 輸入標題和內文、上傳圖片，再按 **Publish**。約一分鐘後就會發布到你的網站。
 
 就是這樣。其他一切都是選配。
 

@@ -1,0 +1,88 @@
+# One-time setup for Decap CMS GitHub login on Cloudflare Pages.
+#
+# Run this once per fork after you have:
+#   1. Created a GitHub OAuth App (Settings -> Developer settings -> OAuth Apps)
+#      with Authorization callback URL: https://<your-site>.pages.dev/api/callback
+#   2. Added the Cloudflare secrets below to this repository (Settings -> Secrets
+#      and variables -> Actions):
+#        CF_API_TOKEN   - a Cloudflare API token with "Cloudflare Pages: Edit" permission
+#        CF_ACCOUNT_ID  - your Cloudflare account id
+#
+# Then go to Actions -> "Setup Decap CMS login" -> Run workflow, and paste in your
+# GitHub OAuth App's client ID and secret. The workflow writes them into the
+# Cloudflare Pages project as environment variables and redeploys the site.
+
+name: Setup Decap CMS login
+
+on:
+  workflow_dispatch:
+    inputs:
+      client_id:
+        description: GitHub OAuth App Client ID
+        required: true
+        type: string
+      client_secret:
+        description: GitHub OAuth App Client Secret
+        required: true
+        type: string
+      project_name:
+        description: Your Cloudflare Pages project name (from your *.pages.dev URL)
+        required: true
+        type: string
+
+jobs:
+  set-cloudflare-env:
+    name: Set Cloudflare Pages env vars
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set OAuth credentials on Cloudflare Pages
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          PROJECT_NAME: ${{ github.event.inputs.project_name }}
+          CLIENT_ID: ${{ github.event.inputs.client_id }}
+          CLIENT_SECRET: ${{ github.event.inputs.client_secret }}
+        run: |
+          set -euo pipefail
+          if [ -z "$CF_API_TOKEN" ] || [ -z "$CF_ACCOUNT_ID" ]; then
+            echo "::error::Missing CF_API_TOKEN or CF_ACCOUNT_ID secrets. Add them in Settings -> Secrets and variables -> Actions, then re-run this workflow."
+            exit 1
+          fi
+
+          body=$(jq -n \
+            --arg id "$CLIENT_ID" \
+            --arg secret "$CLIENT_SECRET" \
+            '{deployment_configs: {production: {env_vars: {
+               OAUTH_GITHUB_CLIENT_ID: {type: "plain_text", value: $id},
+               OAUTH_GITHUB_CLIENT_SECRET: {type: "secret_text", value: $secret}
+            }}}}')
+
+          curl -fsS -X PATCH \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT_NAME}" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d "$body" \
+            | jq -e '.success == true' >/dev/null || {
+              echo "::error::Cloudflare API rejected the request. Check CF_API_TOKEN permissions (needs Cloudflare Pages: Edit) and the project name."
+              exit 1
+            }
+
+          echo "✅ Env vars set. Redeploying the site..."
+
+      - name: Redeploy via Cloudflare API
+        env:
+          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+          PROJECT_NAME: ${{ github.event.inputs.project_name }}
+        run: |
+          set -euo pipefail
+          curl -fsS -X POST \
+            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT_NAME}/deployments" \
+            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+            -H "Content-Type: application/json" \
+            -d '{}' \
+            | jq -e '.success == true' >/dev/null
+
+      - name: Done
+        run: |
+          echo "Open https://${{ github.event.inputs.project_name }}.pages.dev/admin and log in with GitHub."
