@@ -32,6 +32,10 @@ jobs:
   set-cloudflare-env:
     name: Set Cloudflare Pages env vars
     runs-on: ubuntu-latest
+    env:
+      # Secrets can't be referenced directly in `if:` conditionals, so expose
+      # the optional deploy hook via a job-level env var.
+      CF_DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
     steps:
       - name: Set OAuth credentials on Cloudflare Pages
         env:
@@ -78,7 +82,7 @@ jobs:
           echo "✅ Env vars set (existing project env vars are preserved by the per-key merge)."
 
       - name: Redeploy via deploy hook (optional)
-        if: ${{ secrets.CF_DEPLOY_HOOK != '' }}
+        if: ${{ env.CF_DEPLOY_HOOK != '' }}
         env:
           DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
         run: |

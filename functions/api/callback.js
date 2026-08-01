@@ -4,6 +4,11 @@
 // hands it back to the Decap CMS login window via postMessage.
 
 function renderBody(status, content, origin) {
+  // JSON.stringify then escape so the payload is a safe single-quoted JS string
+  // literal: error messages can contain apostrophes (e.g. "Unexpected token '<'").
+  const payload = JSON.stringify(content)
+    .replace(/\\/g, '\\\\')
+    .replace(/'/g, "\\'");
   const html = `
     <script>
       // Only ever hand the token back to a message from this site's own origin.
@@ -14,7 +19,7 @@ function renderBody(status, content, origin) {
       const receiveMessage = (message) => {
         if (message.origin !== ORIGIN) return;
         window.opener.postMessage(
-          'authorization:github:${status}:${JSON.stringify(content)}',
+          'authorization:github:${status}:${payload}',
           ORIGIN
         );
         window.removeEventListener("message", receiveMessage, false);
