@@ -11,7 +11,6 @@ through a friendly web dashboard — no coding, no server, no database to manage
 [![Decap CMS](https://img.shields.io/badge/Decap%20CMS-3-1f7a6b?logo=decap&logoColor=white)](https://decapcms.org)
 [![Hosting: Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-free-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![CI](https://img.shields.io/github/actions/workflow/status/lavasecurity/kantan-hp/ci.yml?branch=main&label=CI)](.github/workflows/ci.yml)
 
 ---
 
