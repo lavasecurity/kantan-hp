@@ -5,7 +5,7 @@ local setup, customization, and the internals of the starter.
 
 ## Stack
 
-- **[Astro](https://astro.build)** — static site generator (Node.js/npm, version 20+).
+- **[Astro](https://astro.build)** — static site generator (Node.js/npm, version 22+).
 - **[Decap CMS](https://decapcms.org)** — web editor at `/admin` that commits Markdown
   to your Git repo.
 - **Cloudflare Pages** — free hosting; rebuilds on every push.
@@ -68,8 +68,7 @@ kantan-hp/
 ## Editor login (one time)
 
 To publish from `/admin`, Decap must authenticate to GitHub on your behalf. Follow
-[`docs/github-oauth-setup.md`](github-oauth-setup.md). For quick local editing without
-OAuth, run `npm run decap` and use the local backend in `/admin`.
+[`docs/github-oauth-setup.md`](github-oauth-setup.md).
 
 ## Contributing
 

@@ -1,5 +1,10 @@
 # 简单网站（Kantan HP）— 免费、几分钟就能发布的博客
 
+[![Astro](https://img.shields.io/badge/Astro-7-FF5D01?logo=astro&logoColor=white)](https://astro.build)
+[![Decap CMS](https://img.shields.io/badge/Decap%20CMS-3-1f7a6b?logo=decap&logoColor=white)](https://decapcms.org)
+[![Hosting: Cloudflare Pages](https://img.shields.io/badge/Cloudflare%20Pages-free-F38020?logo=cloudflare&logoColor=white)](https://pages.cloudflare.com)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 **Kantan（かんたん）** 日文意为**简单**，而这正是全部重点。
 
 简单网站是一套**现成的博客**，**免费**运行、通过友好的网页界面**轻松编辑**，

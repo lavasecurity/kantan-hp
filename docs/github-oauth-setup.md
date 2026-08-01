@@ -64,16 +64,3 @@ simplest case (classic OAuth App + public repository), the default settings work
   GitHub account lacks write access to the repository. Grant them write access.
 - **Blank `/admin`:** the `OAUTH_GITHUB_CLIENT_*` environment variables aren't set or
   the site wasn't redeployed after adding them (step 2).
-
----
-
-## Local testing without OAuth
-
-Decap provides a local proxy that avoids OAuth. In a second terminal run:
-
-```bash
-npm run decap
-```
-
-Then open `/admin` locally and choose the **local backend** option. This lets you edit
-and preview locally without GitHub credentials.

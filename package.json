@@ -1,24 +1,22 @@
 {
   "name": "kantan-hp",
   "type": "module",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "description": "Kantan HP — a lightweight Astro + Decap CMS blog starter for Cloudflare Pages.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "check": "astro check",
-    "decap": "decap-server"
+    "check": "astro check"
   },
   "dependencies": {
-    "@astrojs/rss": "4.0.7",
-    "@astrojs/sitemap": "3.2.0",
-    "astro": "4.16.19"
+    "@astrojs/rss": "4.0.19",
+    "@astrojs/sitemap": "3.7.3",
+    "astro": "7.1.6"
   },
   "devDependencies": {
-    "@astrojs/check": "0.9.4",
-    "decap-server": "3.1.0",
-    "typescript": "5.6.3"
+    "@astrojs/check": "0.9.10",
+    "typescript": "6.0.3"
   }
 }

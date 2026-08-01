@@ -16,7 +16,7 @@ const posts = (await getCollection('blog'))
       {
         posts.map((post) => (
           <li>
-            <a href={`/blog/${post.slug}/`}>
+            <a href={`/blog/${post.id}/`}>
               <h2>{post.data.title}</h2>
             </a>
             <time datetime={post.data.pubDate.toISOString()}>
