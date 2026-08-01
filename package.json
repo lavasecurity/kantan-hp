@@ -12,9 +12,9 @@
     "decap": "decap-server"
   },
   "dependencies": {
-    "@astrojs/rss": "4.0.7",
+    "@astrojs/rss": "4.0.19",
     "@astrojs/sitemap": "3.2.0",
-    "astro": "4.16.19"
+    "astro": "7.1.1"
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
