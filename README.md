@@ -32,18 +32,19 @@ through a friendly web dashboard — no coding, no server, no database to manage
 Click **[Fork](https://github.com/lavasecurity/kantan-hp/fork)** (or press the **Fork** button at the top of this page) to create your own copy in your GitHub account. If you don't have a GitHub account yet, it's free to create one at [github.com](https://github.com).
 
 ### Step 2 — Publish it (one time)
-Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application** → choose the **Pages** tab → **Connect to Git**. You'll go through three short screens:
+Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application**. On the **Create a Worker** page there's a small link at the bottom: **"Looking to deploy Pages? Get started"** — click it. It leads to the Pages setup that shows the framework preset and output directory. Then:
 
 1. **Select a method** — choose **GitHub** (sign in / authorize if asked).
 2. **Select a repository** — pick the copy you just forked.
-3. **Create and deploy** — fill in:
-   - **Framework preset:** **Astro** ← important. This auto-fills the build command and output folder for you.
+3. **Create and deploy** — in the build settings:
+   - **Framework preset:** **Astro**
    - **Project name:** anything you like (defaults to your repo name — this becomes your `*.pages.dev` address)
-   - **Production branch:** `main`
-   - **Build command:** `npm run build` (filled in automatically by the Astro preset)
-   - **Build output directory:** `dist` (filled in automatically by the Astro preset)
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
    
-   Leave everything else at its default. The **Path** under Advanced settings is the *root directory* (the repo subfolder to build from — for monorepos) — **leave it blank**. It is not the output folder.
+   Cloudflare detects it's an Astro project, so the preset may already fill these in.
+
+> Prefer a shortcut? You can also go straight to the Pages flow via **Workers & Pages → Create application → Pages tab → Connect to Git** — the fields are the same, though the preset picker may not be shown there.
 
 Then click **Save and Deploy**. Cloudflare does the rest — it installs, builds, and publishes automatically. You'll get a free address like `your-site.pages.dev` (you can add your own domain later).
 

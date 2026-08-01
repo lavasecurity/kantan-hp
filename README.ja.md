@@ -34,20 +34,22 @@
 で無料で作れます。
 
 ### 手順2 — 公開する（一度だけ）
-[Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application** →
-**Pages** タブ → **Connect to Git** を開きます。3つの短い画面が表示されます：
+[Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application** を開きます。
+**Create a Worker** ページ下部に小さなリンク **"Looking to deploy Pages? Get started"** があるので
+クリックしてください。フレームワークのプリセットと出力ディレクトリが表示されるPages設定に進みます。次に：
 
 1. **Select a method** — **GitHub** を選択（求められればログイン／許可）。
 2. **Select a repository** — 先ほどForkしたコピーを選択。
-3. **Create and deploy** — 次の項目を入力：
-   - **Framework preset:** **Astro** ← 重要。ビルドコマンドと出力フォルダが自動で入ります。
+3. **Create and deploy** — ビルド設定に入力：
+   - **Framework preset:** **Astro**
    - **Project name:** お好みで（デフォルトはリポジトリ名。これが `*.pages.dev` アドレスになります）
-   - **Production branch:** `main`
-   - **Build command:** `npm run build`（Astroプリセットで自動入力）
-   - **Build output directory:** `dist`（Astroプリセットで自動入力）
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
    
-   それ以外はデフォルトのままでOK。**Advanced settings の Path** は *root directory*（モノレポなどで
-   ビルドするリポジトリのサブフォルダ指定）で、**空のままでOK**。出力フォルダとは別物です。
+   Astroプロジェクトとして自動検出されるため、プリセットが自動入力される場合もあります。
+
+> ショートカット：**Workers & Pages → Create application → Pages タブ → Connect to Git** からも
+> 直接Pages設定に進めます。項目は同じですが、プリセット選択が表示されない場合があります。
 
 その後 **Save and Deploy** をクリック。Cloudflareが自動でビルド・公開してくれます。`your-site.pages.dev` のような無料アドレスが
 もらえます（あとで独自ドメインも設定できます）。
