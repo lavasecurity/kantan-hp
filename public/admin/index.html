@@ -14,15 +14,9 @@
     <!-- Include the script that builds the page and powers Decap CMS -->
     <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
     <script>
-      const { initCMS } = window;
-      // The OAuth proxy runs as Cloudflare Pages Functions on this site itself,
-      // so base_url must be the site's own origin: Decap posts back to the
-      // popup's parent window and the origin has to match exactly. Using
-      // location.origin makes /admin work on any fork or custom domain with no
-      // per-site configuration. These two keys are merged over config.yml by
-      // Decap (deepmerge); the repo/branch still come from config.yml, which is
-      // the single place to update when you fork to your own GitHub account.
-      initCMS({
+      // Documented Decap manual-init API (window.initCMS also exists in the bundle,
+      // but CMS.init is the stable, documented entry point).
+      window.CMS.init({
         config: {
           backend: {
             base_url: location.origin,
