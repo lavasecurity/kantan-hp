@@ -1,0 +1,63 @@
+# Deploy to Cloudflare Pages via Direct Upload.
+#
+# This workflow is for sites provisioned by the kantan panel, which creates a
+# Cloudflare Pages project WITHOUT a Git connection and writes two repository
+# secrets (CF_API_TOKEN, CF_ACCOUNT_ID). Every push to main — including content
+# edits made in the Decap CMS editor — rebuilds and deploys the site.
+#
+# If those secrets are absent (classic forks connected to Cloudflare Pages via
+# Git), the workflow skips itself cleanly: Cloudflare builds those sites itself.
+
+name: Deploy to Cloudflare Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
+      CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
+    steps:
+      - name: Check for direct-upload credentials
+        id: gate
+        run: |
+          if [ -z "$CF_API_TOKEN" ] || [ -z "$CF_ACCOUNT_ID" ]; then
+            echo "No CF_API_TOKEN / CF_ACCOUNT_ID secrets — skipping direct-upload deploy."
+            echo "(Git-connected Pages projects are built by Cloudflare automatically.)"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - uses: actions/checkout@v4
+        if: steps.gate.outputs.skip != 'true'
+
+      - uses: actions/setup-node@v4
+        if: steps.gate.outputs.skip != 'true'
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install and build
+        if: steps.gate.outputs.skip != 'true'
+        run: |
+          npm ci
+          npm run build
+
+      - name: Deploy to Cloudflare Pages
+        if: steps.gate.outputs.skip != 'true'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CF_API_TOKEN }}
+          accountId: ${{ secrets.CF_ACCOUNT_ID }}
+          # The panel names the Pages project after the repository.
+          command: pages deploy dist --project-name=${{ github.event.repository.name }}

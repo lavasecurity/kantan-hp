@@ -16,14 +16,22 @@
     <script>
       // Documented Decap manual-init API (window.initCMS also exists in the bundle,
       // but CMS.init is the stable, documented entry point).
-      window.CMS.init({
-        config: {
-          backend: {
-            base_url: location.origin,
-            auth_endpoint: '/api/auth',
-          },
-        },
-      });
+      //
+      // Classic forks self-host the OAuth proxy (functions/api/*): inject
+      // base_url/auth_endpoint for this site's own origin so any fork or custom
+      // domain works without edits. Sites provisioned by the kantan panel instead
+      // carry base_url in config.yml (pointing at the panel's shared auth proxy) —
+      // when that's present, inject nothing and let the file config win.
+      (async () => {
+        let backend = { base_url: location.origin, auth_endpoint: '/api/auth' };
+        try {
+          const res = await fetch('config.yml');
+          if (res.ok && /^\s*base_url\s*:/m.test(await res.text())) backend = {};
+        } catch (e) {
+          /* fall through to the self-hosted default */
+        }
+        window.CMS.init({ config: { backend } });
+      })();
     </script>
   </body>
 </html>
