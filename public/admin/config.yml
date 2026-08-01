@@ -1,14 +1,15 @@
 # https://decapcms.org/docs/configuration-options/
+#
+# Forks: the only thing you MUST change here is `repo` — set it to your own
+# fork, e.g. your-username/kantan-hp. Everything else is handled automatically:
+# `base_url` and `auth_endpoint` are injected at runtime by admin/index.html so
+# the OAuth flow works on any fork or custom domain without further edits.
 
 backend:
   name: github
-  # Update this to your own GitHub repository, e.g. your-name/your-blog
+  # IMPORTANT: update to your own GitHub fork, e.g. your-username/kantan-hp
   repo: lavasecurity/kantan-hp
   branch: main
-  base_url: https://api.github.com
-  # Set to true if you use a GitHub App (recommended for non-technical editors).
-  # See the README "GitHub OAuth / GitHub App" section for setup steps.
-  # use_graphql: false
 
 media_folder: public/images
 public_folder: /images
