@@ -50,6 +50,10 @@ Cloudflare secrets added once to the repository:
 3. Go to **Actions → "Setup Decap CMS login" → Run workflow** and fill in:
    - **Client ID** / **Client Secret** from Step 1
    - **Project name** — the name in your `*.pages.dev` URL
+   - **Deploy hook (optional)** — to have the workflow redeploy the site for you,
+     create one first in Cloudflare: your Pages project → **Settings → Builds →
+     Add deploy hook**, then paste its URL here. If you leave it empty, the new
+     env vars take effect on your next git push.
 
 The workflow writes the credentials into Cloudflare Pages and redeploys your site.
 That's it — open `/admin` and log in with GitHub.

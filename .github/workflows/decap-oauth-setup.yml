@@ -29,6 +29,13 @@ on:
         description: Your Cloudflare Pages project name (from your *.pages.dev URL)
         required: true
         type: string
+      deploy_hook:
+        description: >
+          Optional — Cloudflare Pages deploy hook URL (Settings -> Builds -> Add
+          deploy hook). Leave empty to skip the automatic redeploy; the env vars
+          will take effect on your next git push.
+        required: false
+        type: string
 
 jobs:
   set-cloudflare-env:
@@ -67,22 +74,23 @@ jobs:
               exit 1
             }
 
-          echo "✅ Env vars set. Redeploying the site..."
+          echo "✅ Env vars set."
 
-      - name: Redeploy via Cloudflare API
+      - name: Redeploy via deploy hook (optional)
+        if: ${{ github.event.inputs.deploy_hook != '' }}
         env:
-          CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
-          CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
-          PROJECT_NAME: ${{ github.event.inputs.project_name }}
+          DEPLOY_HOOK: ${{ github.event.inputs.deploy_hook }}
         run: |
           set -euo pipefail
-          curl -fsS -X POST \
-            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT_NAME}/deployments" \
-            -H "Authorization: Bearer ${CF_API_TOKEN}" \
+          # Deploy hooks trigger a rebuild of the Git-connected Pages project
+          # without needing a git push. (The direct-upload deployments endpoint
+          # is NOT for Git-connected projects.)
+          curl -fsS -X POST "$DEPLOY_HOOK" \
             -H "Content-Type: application/json" \
-            -d '{}' \
-            | jq -e '.success == true' >/dev/null
+            -d '{}' >/dev/null
+          echo "✅ Redeploy triggered. Env vars will apply to the new build."
 
       - name: Done
         run: |
           echo "Open https://${{ github.event.inputs.project_name }}.pages.dev/admin and log in with GitHub."
+          echo "If you skipped the deploy hook, the env vars take effect after your next git push / deploy."

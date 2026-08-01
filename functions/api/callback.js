@@ -37,9 +37,10 @@ export async function onRequest(context) {
     );
   }
 
+  const url = new URL(context.request.url);
+  const origin = url.origin;
+
   try {
-    const url = new URL(context.request.url);
-    const origin = url.origin;
     const code = url.searchParams.get('code');
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
