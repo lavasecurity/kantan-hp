@@ -38,13 +38,15 @@
 
 1. **Select a method** — 選擇 **GitHub**（如有提示請登入／授權）。
 2. **Select a repository** — 選擇你剛剛複製的專案。
-3. **Create and deploy** — 填寫建置設定：
+3. **Create and deploy** — 填寫：
+   - **Framework preset:** **Astro** ← 重要。會自動帶入建置指令與輸出資料夾。
    - **Project name:** 任你命名（預設為 repo 名稱，這會成為你的 `*.pages.dev` 網址）
    - **Production branch:** `main`
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
+   - **Build command:** `npm run build`（由 Astro preset 自動帶入）
+   - **Build output directory:** `dist`（由 Astro preset 自動帶入）
    
-   進階設定（root directory、環境變數、非正式分支的預覽建置）保持預設即可。
+   其他保持預設即可。**Advanced settings 中的 Path** 是 *root directory*（在 monorepo 等情況下
+   指定要建置的 repo 子資料夾）——**留空即可**，它不是輸出資料夾。
 
 接著按 **Save and Deploy**。Cloudflare 會自動建置並發布。你會得到一個免費網址，例如 `your-site.pages.dev`（之後可加自己的網域）。
 

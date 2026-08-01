@@ -36,13 +36,14 @@ Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Cr
 
 1. **Select a method** — choose **GitHub** (sign in / authorize if asked).
 2. **Select a repository** — pick the copy you just forked.
-3. **Create and deploy** — fill in the build settings:
+3. **Create and deploy** — fill in:
+   - **Framework preset:** **Astro** ← important. This auto-fills the build command and output folder for you.
    - **Project name:** anything you like (defaults to your repo name — this becomes your `*.pages.dev` address)
    - **Production branch:** `main`
-   - **Build command:** `npm run build`
-   - **Build output directory:** `dist`
+   - **Build command:** `npm run build` (filled in automatically by the Astro preset)
+   - **Build output directory:** `dist` (filled in automatically by the Astro preset)
    
-   Leave the advanced settings (root directory, environment variables, preview builds for non-production branches) at their defaults.
+   Leave everything else at its default. The **Path** under Advanced settings is the *root directory* (the repo subfolder to build from — for monorepos) — **leave it blank**. It is not the output folder.
 
 Then click **Save and Deploy**. Cloudflare does the rest — it installs, builds, and publishes automatically. You'll get a free address like `your-site.pages.dev` (you can add your own domain later).
 
