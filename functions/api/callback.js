@@ -42,6 +42,19 @@ export async function onRequest(context) {
 
   try {
     const code = url.searchParams.get('code');
+    const returnedState = url.searchParams.get('state');
+
+    // Verify the state matches the one /api/auth stored in a SameSite cookie,
+    // so an authorization code that was not initiated by this site is rejected.
+    const cookies = context.request.headers.get('cookie') || '';
+    const match = cookies.match(/(?:^|;\s*)decap_oauth_state=([^;]+)/);
+    if (!match || match[1] !== returnedState) {
+      return new Response(renderBody('error', { message: 'Invalid OAuth state' }, origin), {
+        headers: { 'content-type': 'text/html;charset=UTF-8' },
+        status: 403,
+      });
+    }
+
     const response = await fetch('https://github.com/login/oauth/access_token', {
       method: 'POST',
       headers: {
@@ -52,16 +65,18 @@ export async function onRequest(context) {
       body: JSON.stringify({ client_id, client_secret, code }),
     });
     const result = await response.json();
+    const clearState = 'decap_oauth_state=; Path=/api; HttpOnly; SameSite=Lax; Secure; Max-Age=0';
+    const headers = {
+      'content-type': 'text/html;charset=UTF-8',
+      'Set-Cookie': clearState,
+    };
     if (result.error) {
-      return new Response(renderBody('error', result, origin), {
-        headers: { 'content-type': 'text/html;charset=UTF-8' },
-        status: 401,
-      });
+      return new Response(renderBody('error', result, origin), { headers, status: 401 });
     }
-    return new Response(renderBody('success', { token: result.access_token, provider: 'github' }, origin), {
-      headers: { 'content-type': 'text/html;charset=UTF-8' },
-      status: 200,
-    });
+    return new Response(
+      renderBody('success', { token: result.access_token, provider: 'github' }, origin),
+      { headers, status: 200 },
+    );
   } catch (error) {
     console.error(error);
     return new Response(renderBody('error', { message: error.message }, origin), {

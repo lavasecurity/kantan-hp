@@ -56,16 +56,28 @@ jobs:
             exit 1
           fi
 
-          body=$(jq -n \
+          base="https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT_NAME}"
+
+          # Read the project first so we PRESERVE any existing production env vars
+          # instead of replacing the whole map (PATCH replaces it).
+          existing=$(
+            curl -fsS "$base" -H "Authorization: Bearer ${CF_API_TOKEN}" \
+              | jq -c '.result.deployment_configs.production.env_vars // {}'
+          )
+
+          # Merge our two OAuth entries into the existing map, then PATCH.
+          body=$(jq -cn \
+            --argjson existing "$existing" \
             --arg id "$CLIENT_ID" \
             --arg secret "$CLIENT_SECRET" \
-            '{deployment_configs: {production: {env_vars: {
-               OAUTH_GITHUB_CLIENT_ID: {type: "plain_text", value: $id},
-               OAUTH_GITHUB_CLIENT_SECRET: {type: "secret_text", value: $secret}
-            }}}}')
+            '{deployment_configs: {production: {env_vars:
+              ($existing + {
+                 OAUTH_GITHUB_CLIENT_ID: {type: "plain_text", value: $id},
+                 OAUTH_GITHUB_CLIENT_SECRET: {type: "secret_text", value: $secret}
+              })
+            }}}')
 
-          curl -fsS -X PATCH \
-            "https://api.cloudflare.com/client/v4/accounts/${CF_ACCOUNT_ID}/pages/projects/${PROJECT_NAME}" \
+          curl -fsS -X PATCH "$base" \
             -H "Authorization: Bearer ${CF_API_TOKEN}" \
             -H "Content-Type: application/json" \
             -d "$body" \
@@ -74,7 +86,7 @@ jobs:
               exit 1
             }
 
-          echo "✅ Env vars set."
+          echo "✅ Env vars set (existing project env vars preserved)."
 
       - name: Redeploy via deploy hook (optional)
         if: ${{ github.event.inputs.deploy_hook != '' }}
