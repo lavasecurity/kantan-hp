@@ -99,5 +99,8 @@ jobs:
         env:
           PROJECT_NAME: ${{ github.event.inputs.project_name }}
         run: |
-          echo "Open https://${PROJECT_NAME}.pages.dev/admin and log in with GitHub."
+          echo "Open /admin on the domain you registered in the GitHub OAuth App."
+          echo "  - default:  https://${PROJECT_NAME}.pages.dev/admin"
+          echo "  - custom domain: https://<your-domain>/admin (must match the OAuth callback)"
+          echo "Then log in with GitHub."
           echo "If CF_DEPLOY_HOOK is not set, the env vars take effect after your next git push / deploy."
