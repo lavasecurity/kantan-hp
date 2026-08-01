@@ -56,7 +56,7 @@
 
 ### 手順3 — 最初の記事を書く
 記事を公開する前に、一度だけ **GitHub ログイン** の設定が必要です（エディターが保存に使います）。
-簡単な **[GitHubログイン設定ガイド](docs/github-oauth-setup.md)** に従ってください（一度だけ、約5分）。
+簡単な **[GitHubログイン設定ガイド](docs/github-oauth-setup.ja.md)** に従ってください（一度だけ、約5分）。
 
 その後 `your-site.pages.dev/admin` を開き → **Blog → New Blog** をクリック →
 タイトルと本文を書き、画像をアップロードして **Publish** を押すだけ。約1分でサイトに公開されます。
@@ -72,7 +72,7 @@
 
 セットアップやカスタマイズの詳細は **[開発者ガイド](docs/developer-guide.md)** を、
 エディターからの公開時にGitHubログインの設定を求められた場合は
-**[GitHubログイン設定ガイド](docs/github-oauth-setup.md)** を参照してください。
+**[GitHubログイン設定ガイド](docs/github-oauth-setup.ja.md)** を参照してください。
 
 ---
 

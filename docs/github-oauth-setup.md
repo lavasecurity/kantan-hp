@@ -1,5 +1,7 @@
 # Setting up GitHub login for Decap CMS
 
+**Read this in:** [English](github-oauth-setup.md) · [日本語](github-oauth-setup.ja.md) · [繁體中文](github-oauth-setup.zh-Hant.md) · [简体中文](github-oauth-setup.zh-Hans.md)
+
 Decap CMS commits your content to the Git repository on your behalf, so it must be able
 to authenticate as you. This guide walks through the once-only setup.
 

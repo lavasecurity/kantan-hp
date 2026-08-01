@@ -54,7 +54,7 @@
 
 ### 步驟 3 — 寫第一篇文章
 發布文章前，需要先設定一次 **GitHub 登入**（編輯器儲存文章時會用到）。請按照簡短的
-**〔GitHub 登入設定指南〕(docs/github-oauth-setup.md)** 操作（僅需一次，約 5 分鐘）。
+**〔GitHub 登入設定指南〕**（[docs/github-oauth-setup.zh-Hant.md](docs/github-oauth-setup.zh-Hant.md)）操作（僅需一次，約 5 分鐘）。
 
 然後開啟 `your-site.pages.dev/admin` → 按 **Blog → New Blog** → 輸入標題和內文、上傳圖片，再按 **Publish**。約一分鐘後就會發布到你的網站。
 
@@ -67,7 +67,7 @@
 網站本身是一般的 **Astro** 專案。如果想調整顏色、版面或新增頁面，編輯 `src/` 中的檔案即可，網站會自動重新建置。
 
 詳細的設定與客製說明請見 **〔開發者指南〕(docs/developer-guide.md)**；如果發布時要求設定
-GitHub 登入，請見 **〔GitHub 登入設定指南〕(docs/github-oauth-setup.md)**。
+GitHub 登入，請見 **〔GitHub 登入設定指南〕**（[docs/github-oauth-setup.zh-Hant.md](docs/github-oauth-setup.zh-Hant.md)）。
 
 ---
 
