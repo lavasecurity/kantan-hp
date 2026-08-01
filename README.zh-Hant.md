@@ -33,11 +33,20 @@
 如果還沒有 GitHub 帳號，可到 [github.com](https://github.com) 免費建立。
 
 ### 步驟 2 — 發布（僅需一次）
-前往 [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**，選擇你複製的專案，然後：
-- Build command: `npm run build`
-- Output directory: `dist`
+前往 [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application** →
+選擇 **Pages** 分頁 → **Connect to Git**。會出現三個簡短畫面：
 
-Cloudflare 會自動建置並發布。你會得到一個免費網址，例如 `your-site.pages.dev`（之後可加自己的網域）。
+1. **Select a method** — 選擇 **GitHub**（如有提示請登入／授權）。
+2. **Select a repository** — 選擇你剛剛複製的專案。
+3. **Create and deploy** — 填寫建置設定：
+   - **Project name:** 任你命名（預設為 repo 名稱，這會成為你的 `*.pages.dev` 網址）
+   - **Production branch:** `main`
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+   
+   進階設定（root directory、環境變數、非正式分支的預覽建置）保持預設即可。
+
+接著按 **Save and Deploy**。Cloudflare 會自動建置並發布。你會得到一個免費網址，例如 `your-site.pages.dev`（之後可加自己的網域）。
 
 ### 步驟 3 — 寫第一篇文章
 開啟 `your-site.pages.dev/admin`，接受登入提示 → 按 **Blog → New Blog** → 輸入標題和內文、上傳圖片，再按 **Publish**。約一分鐘後就會發布到你的網站。

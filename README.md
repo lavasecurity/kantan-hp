@@ -32,11 +32,19 @@ through a friendly web dashboard — no coding, no server, no database to manage
 Click **[Fork](https://github.com/lavasecurity/kantan-hp/fork)** (or press the **Fork** button at the top of this page) to create your own copy in your GitHub account. If you don't have a GitHub account yet, it's free to create one at [github.com](https://github.com).
 
 ### Step 2 — Publish it (one time)
-Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create** → **Pages** → **Connect to Git**. Choose your copy of this project, then:
-- Build command: `npm run build`
-- Output directory: `dist`
+Go to [Cloudflare](https://dash.cloudflare.com) → **Workers & Pages** → **Create application** → choose the **Pages** tab → **Connect to Git**. You'll go through three short screens:
 
-Cloudflare does the rest — it builds and publishes automatically. You'll get a free address like `your-site.pages.dev` (you can add your own domain later).
+1. **Select a method** — choose **GitHub** (sign in / authorize if asked).
+2. **Select a repository** — pick the copy you just forked.
+3. **Create and deploy** — fill in the build settings:
+   - **Project name:** anything you like (defaults to your repo name — this becomes your `*.pages.dev` address)
+   - **Production branch:** `main`
+   - **Build command:** `npm run build`
+   - **Build output directory:** `dist`
+   
+   Leave the advanced settings (root directory, environment variables, preview builds for non-production branches) at their defaults.
+
+Then click **Save and Deploy**. Cloudflare does the rest — it installs, builds, and publishes automatically. You'll get a free address like `your-site.pages.dev` (you can add your own domain later).
 
 ### Step 3 — Write your first post
 Open `your-site.pages.dev/admin`, accept the "login" prompt, click **Blog → New Blog**, write your title and text, upload a picture, and press **Publish**. It goes live on your site within about a minute.
