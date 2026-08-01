@@ -10,7 +10,7 @@ Decap CMS 會代表你將內容提交到 Git 儲存庫，因此它需要能以�
 `functions/api/callback.js`）處理，因此不需要外部伺服器 — 它會隨網站一起自動部署。
 
 設定方式有兩種：
-- **[A. 一次性設定 Action（建議）](#a一次性設定-action建議)** — 本儲存庫內附的 GitHub Actions
+- **[A. 一次性設定 Action（建議）](#a-一次性設定-action建議)** — 本儲存庫內附的 GitHub Actions
   工作流程會幫你把認證資訊寫入 Cloudflare。
 - **[B. Cloudflare 手動設定](#b-cloudflare-手動設定)** — 如果你想自己點選 Cloudflare 儀表板。
 
