@@ -39,24 +39,30 @@ Decap CMS はあなたの代わりに Git リポジトリへコンテンツを�
 ## A. ワンタイム設定アクション（推奨）
 
 このリポジトリには、認証情報を Cloudflare Pages プロジェクトに書き込み、再デプロイする
-ワークフロー（`.github/workflows/decap-oauth-setup.yml`）が含まれています。必要なのは
-2つの Cloudflare シークレットをリポジトリに一度だけ追加することです：
+ワークフロー（`.github/workflows/decap-oauth-setup.yml`）が含まれています。認証情報は
+**リポジトリシークレット**として保存するため（ログに漏れません）、一度だけ追加します：
 
 1. **Cloudflare API トークン**（Cloudflare ダッシュボード → My Profile → **API Tokens** →
    **Create Token**）を **"Cloudflare Pages: Edit"** 権限付きで作成し、**Account ID**
    （ダッシュボード右側のサイドバー）も取得する。
 2. GitHub リポジトリで **Settings → Secrets and variables → Actions** に追加：
+   - `GH_OAUTH_CLIENT_ID` = GitHub OAuth App の Client ID（手順1 のもの）
+   - `GH_OAUTH_CLIENT_SECRET` = GitHub OAuth App の Client secret（手順1 のもの）
    - `CF_API_TOKEN` = 上記のトークン
    - `CF_ACCOUNT_ID` = お使いの Cloudflare アカウント ID
-3. **Actions → "Setup Decap CMS login" → Run workflow** を開き、入力：
-   - **Client ID** / **Client Secret**（手順1 のもの）
-   - **Project name** — `*.pages.dev` URL のプロジェクト名
-   - **Deploy hook（任意）** — ワークフローに再デプロイも任せる場合、先に Cloudflare の
-     Pages プロジェクト → **Settings → Builds → Add deploy hook** で作成し、その URL を
-     貼り付け。空のままなら、次回の git push で環境変数が反映されます。
+   - `CF_DEPLOY_HOOK`（任意）= Cloudflare のデプロイフック URL（下記参照）。ワークフローに
+     再デプロイも任せる場合に設定
+3. **Actions → "Setup Decap CMS login" → Run workflow** を開き、**Project name**
+   （`*.pages.dev` URL のプロジェクト名）だけを入力。
 
-ワークフローが認証情報を Cloudflare Pages に書き込み、サイトを再デプロイします。
+ワークフローが認証情報を Cloudflare Pages に書き込み（キー単位マージなので、他の
+環境変数は保持されます）、デプロイフックでサイトを再デプロイします。
 これで完了 — `/admin` を開いて GitHub でログインしてください。
+
+**任意のデプロイフック：** ワークフローに再デプロイも任せる場合、先に Cloudflare の
+Pages プロジェクト → **Settings → Builds → Add deploy hook** で作成し、その URL を
+`CF_DEPLOY_HOOK` シークレットに設定。設定しない場合、新しい環境変数は次回の
+git push で反映されます。
 
 ---
 

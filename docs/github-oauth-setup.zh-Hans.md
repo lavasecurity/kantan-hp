@@ -35,22 +35,27 @@ Decap CMS 会代表你将内容提交到 Git 存储库，因此它需要能以�
 ## A. 一次性设置 Action（推荐）
 
 本存储库内附一个工作流程（`.github/workflows/decap-oauth-setup.yml`），会把两个认证信息
-写入你的 Cloudflare Pages 项目并重新部署。你只需在存储库中添加两个 Cloudflare 密钥一次：
+写入你的 Cloudflare Pages 项目并重新部署。认证信息会以**存储库密钥**存储（不会出现在日志中），
+只需添加一次：
 
 1. 获取 **Cloudflare API 令牌**（Cloudflare 仪表盘 → My Profile → **API Tokens** →
    **Create Token**），权限选 **"Cloudflare Pages: Edit"**，并获取 **Account ID**（仪表盘右侧）。
 2. 在 GitHub 存储库中，前往 **Settings → Secrets and variables → Actions** 添加：
+   - `GH_OAUTH_CLIENT_ID` = GitHub OAuth App 的 Client ID（步骤 1 的）
+   - `GH_OAUTH_CLIENT_SECRET` = GitHub OAuth App 的 Client secret（步骤 1 的）
    - `CF_API_TOKEN` = 上述令牌
    - `CF_ACCOUNT_ID` = 你的 Cloudflare 账户 ID
-3. 前往 **Actions → "Setup Decap CMS login" → Run workflow** 并填写：
-   - **Client ID** / **Client Secret**（步骤 1 的）
-   - **Project name** — 你的 `*.pages.dev` URL 中的项目名称
-   - **Deploy hook（可选）** — 若要工作流程自动重新部署，请先在 Cloudflare 的
-     Pages 项目 → **Settings → Builds → Add deploy hook** 创建并粘贴其 URL。留空的话，
-     新环境变量会在你下次 git push 时生效。
+   - `CF_DEPLOY_HOOK`（可选）= Cloudflare 的 deploy hook URL（见下方）。若要工作流程
+     自动重新部署，请设置此密钥
+3. 前往 **Actions → "Setup Decap CMS login" → Run workflow**，只输入 **Project name**
+   （`*.pages.dev` URL 中的项目名称）。
 
-工作流程会把认证信息写入 Cloudflare Pages 并重新部署你的网站。
-这样就完成了 — 打开 `/admin`，用 GitHub 登录即可。
+工作流程会把认证信息写入 Cloudflare Pages（按键合并，因此其他环境变量会被保留），并通过
+deploy hook 重新部署你的网站。这样就完成了 — 打开 `/admin`，用 GitHub 登录即可。
+
+**可选的 deploy hook：** 若要工作流程自行触发重新部署，请先在 Cloudflare 的 Pages 项目 →
+**Settings → Builds → Add deploy hook** 创建，并将其 URL 设为 `CF_DEPLOY_HOOK` 密钥。
+若不设置，新的环境变量会在你下次 git push 时生效。
 
 ---
 

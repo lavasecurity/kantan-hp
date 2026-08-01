@@ -40,25 +40,30 @@ Both start the same way: create a GitHub OAuth App.
 ## A. One-time setup Action (recommended)
 
 This repo ships a workflow (`.github/workflows/decap-oauth-setup.yml`) that pushes the
-two credentials into your Cloudflare Pages project and redeploys. You just need two
-Cloudflare secrets added once to the repository:
+two credentials into your Cloudflare Pages project and redeploys. The credentials are
+stored as **repository secrets** (so they're never logged), added once:
 
 1. Get a **Cloudflare API token** (Cloudflare Dashboard → My Profile → **API Tokens** →
    **Create Token**) with the **"Cloudflare Pages: Edit"** permission, and your
    **Account ID** (Dashboard → right-hand sidebar).
 2. In your GitHub repo, go to **Settings → Secrets and variables → Actions** and add:
+   - `GH_OAUTH_CLIENT_ID` = your GitHub OAuth App client ID (from Step 1)
+   - `GH_OAUTH_CLIENT_SECRET` = your GitHub OAuth App client secret (from Step 1)
    - `CF_API_TOKEN` = the token above
    - `CF_ACCOUNT_ID` = your Cloudflare account ID
-3. Go to **Actions → "Setup Decap CMS login" → Run workflow** and fill in:
-   - **Client ID** / **Client Secret** from Step 1
-   - **Project name** — the name in your `*.pages.dev` URL
-   - **Deploy hook (optional)** — to have the workflow redeploy the site for you,
-     create one first in Cloudflare: your Pages project → **Settings → Builds →
-     Add deploy hook**, then paste its URL here. If you leave it empty, the new
-     env vars take effect on your next git push.
+   - `CF_DEPLOY_HOOK` (optional) = a Cloudflare deploy hook URL (see below), to have
+     the workflow redeploy the site for you
+3. Go to **Actions → "Setup Decap CMS login" → Run workflow** and enter only your
+   **Project name** — the name in your `*.pages.dev` URL.
 
-The workflow writes the credentials into Cloudflare Pages and redeploys your site.
+The workflow writes the credentials into Cloudflare Pages (per-key, so your other
+environment variables are preserved) and redeploys your site via the deploy hook.
 That's it — open `/admin` and log in with GitHub.
+
+**Optional deploy hook:** to have the workflow trigger the redeploy itself, create one in
+Cloudflare first: your Pages project → **Settings → Builds → Add deploy hook**, then set
+its URL as the `CF_DEPLOY_HOOK` secret. Without it, the new env vars take effect on your
+next git push.
 
 ---
 

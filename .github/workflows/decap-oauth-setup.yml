@@ -3,38 +3,29 @@
 # Run this once per fork after you have:
 #   1. Created a GitHub OAuth App (Settings -> Developer settings -> OAuth Apps)
 #      with Authorization callback URL: https://<your-site>.pages.dev/api/callback
-#   2. Added the Cloudflare secrets below to this repository (Settings -> Secrets
-#      and variables -> Actions):
-#        CF_API_TOKEN   - a Cloudflare API token with "Cloudflare Pages: Edit" permission
-#        CF_ACCOUNT_ID  - your Cloudflare account id
+#   2. Added these secrets to this repository (Settings -> Secrets and variables
+#      -> Actions). Values are stored encrypted and masked in the run logs:
+#        GH_OAUTH_CLIENT_ID     - your GitHub OAuth App Client ID
+#        GH_OAUTH_CLIENT_SECRET - your GitHub OAuth App Client Secret
+#        CF_API_TOKEN           - Cloudflare API token with "Cloudflare Pages: Edit" permission
+#        CF_ACCOUNT_ID          - your Cloudflare account id
+#        CF_DEPLOY_HOOK (optional) - Cloudflare deploy hook URL to auto-redeploy
 #
-# Then go to Actions -> "Setup Decap CMS login" -> Run workflow, and paste in your
-# GitHub OAuth App's client ID and secret. The workflow writes them into the
-# Cloudflare Pages project as environment variables and redeploys the site.
+# Then go to Actions -> "Setup Decap CMS login" -> Run workflow and enter your
+# Cloudflare Pages project name. The workflow writes the OAuth credentials into
+# the Cloudflare Pages project as environment variables.
+#
+# Sensitive values are repository secrets, NOT dispatch inputs: dispatch inputs
+# are logged unmasked in the publicly readable Actions metadata.
 
 name: Setup Decap CMS login
 
 on:
   workflow_dispatch:
     inputs:
-      client_id:
-        description: GitHub OAuth App Client ID
-        required: true
-        type: string
-      client_secret:
-        description: GitHub OAuth App Client Secret
-        required: true
-        type: string
       project_name:
         description: Your Cloudflare Pages project name (from your *.pages.dev URL)
         required: true
-        type: string
-      deploy_hook:
-        description: >
-          Optional — Cloudflare Pages deploy hook URL (Settings -> Builds -> Add
-          deploy hook). Leave empty to skip the automatic redeploy; the env vars
-          will take effect on your next git push.
-        required: false
         type: string
 
 jobs:
@@ -47,12 +38,16 @@ jobs:
           CF_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           CF_ACCOUNT_ID: ${{ secrets.CF_ACCOUNT_ID }}
           PROJECT_NAME: ${{ github.event.inputs.project_name }}
-          CLIENT_ID: ${{ github.event.inputs.client_id }}
-          CLIENT_SECRET: ${{ github.event.inputs.client_secret }}
+          CLIENT_ID: ${{ secrets.GH_OAUTH_CLIENT_ID }}
+          CLIENT_SECRET: ${{ secrets.GH_OAUTH_CLIENT_SECRET }}
         run: |
           set -euo pipefail
           if [ -z "$CF_API_TOKEN" ] || [ -z "$CF_ACCOUNT_ID" ]; then
             echo "::error::Missing CF_API_TOKEN or CF_ACCOUNT_ID secrets. Add them in Settings -> Secrets and variables -> Actions, then re-run this workflow."
+            exit 1
+          fi
+          if [ -z "$CLIENT_ID" ] || [ -z "$CLIENT_SECRET" ]; then
+            echo "::error::Missing GH_OAUTH_CLIENT_ID or GH_OAUTH_CLIENT_SECRET secrets. Add them in Settings -> Secrets and variables -> Actions, then re-run this workflow."
             exit 1
           fi
 
@@ -83,9 +78,9 @@ jobs:
           echo "✅ Env vars set (existing project env vars are preserved by the per-key merge)."
 
       - name: Redeploy via deploy hook (optional)
-        if: ${{ github.event.inputs.deploy_hook != '' }}
+        if: ${{ secrets.CF_DEPLOY_HOOK != '' }}
         env:
-          DEPLOY_HOOK: ${{ github.event.inputs.deploy_hook }}
+          DEPLOY_HOOK: ${{ secrets.CF_DEPLOY_HOOK }}
         run: |
           set -euo pipefail
           # Deploy hooks trigger a rebuild of the Git-connected Pages project
@@ -99,4 +94,4 @@ jobs:
       - name: Done
         run: |
           echo "Open https://${{ github.event.inputs.project_name }}.pages.dev/admin and log in with GitHub."
-          echo "If you skipped the deploy hook, the env vars take effect after your next git push / deploy."
+          echo "If CF_DEPLOY_HOOK is not set, the env vars take effect after your next git push / deploy."
