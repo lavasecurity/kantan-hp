@@ -1,0 +1,37 @@
+---
+// Layout for a single blog post.
+import { render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import BaseLayout from './BaseLayout.astro';
+import Tag from '../components/Tag.astro';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={post.data.title} description={post.data.description}>
+  <div class="container">
+    <article class="post">
+      <a class="back-link" href="/blog/">← Back to blog</a>
+      <header>
+        <h1>{post.data.title}</h1>
+        <div class="post-meta">
+          <time datetime={post.data.pubDate.toISOString()}>
+            {post.data.pubDate.toDateString()}
+          </time>
+          {post.data.tags.map((tag) => <Tag text={tag} />)}
+        </div>
+      </header>
+      {post.data.heroImage && (
+        <img class="post-hero" src={post.data.heroImage} alt={post.data.title} />
+      )}
+      <div class="prose">
+        <Content />
+      </div>
+    </article>
+  </div>
+</BaseLayout>

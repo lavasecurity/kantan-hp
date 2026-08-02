@@ -1,0 +1,20 @@
+---
+// Newer/older links for the paginated blog index.
+interface Props {
+  page: number;
+  totalPages: number;
+}
+
+const { page, totalPages } = Astro.props;
+const prevHref = page > 1 ? (page === 2 ? '/blog/' : `/blog/page/${page - 1}/`) : null;
+const nextHref = page < totalPages ? `/blog/page/${page + 1}/` : null;
+---
+
+<nav class="pagination" aria-label="Blog pages">
+  {prevHref ? (
+    <a href={prevHref}>← Newer</a>
+  ) : (
+    <span class="disabled">← Newer</span>
+  )}
+  {nextHref ? <a href={nextHref}>Older →</a> : <span class="disabled">Older →</span>}
+</nav>

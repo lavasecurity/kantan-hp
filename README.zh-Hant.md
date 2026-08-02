@@ -18,6 +18,8 @@
 
 - 一個**免費運行的現成部落格**（架設於 Cloudflare Pages）
 - 位於 `your-site.com/admin` 的**網頁編輯器** — 寫文章、加圖片、按發布
+- **設定（Settings）分頁** — 免寫程式即可修改網站標題、標語與主題
+- 一篇已發布的歡迎文章，首次部署後網站就是「活的」
 - 編輯者不需要碰程式碼或 git，只需要瀏覽器。
 
 ---
@@ -57,14 +59,25 @@
 **〔GitHub 登入設定指南〕**（[docs/github-oauth-setup.zh-Hant.md](docs/github-oauth-setup.zh-Hant.md)）操作（僅需一次，約 5 分鐘）。
 
 然後開啟 `your-site.pages.dev/admin` → 按 **Blog → New Blog** → 輸入標題和內文、上傳圖片，再按 **Publish**。約一分鐘後就會發布到你的網站。
+（一篇歡迎文章已經發布，所以部落格不會空空如也。）
 
 就是這樣。其他一切都是選配。
 
 ---
 
+## 修改標題、標語與主題
+
+在編輯器中，**設定（Settings）** 分頁會編輯 `src/config.json`：可修改網站**標題**、**標語**、
+**作者**、**主題**（從內建的 AstroPaper 配色方案中選擇），以及**導覽**連結。按 **Publish** 即可自動更新到線上網站 — 免寫程式碼。
+
+編輯**關於（About）**頁面，請使用編輯器中的 **頁面（Pages）** 分頁。
+
+---
+
 ## 想改外觀？
 
-網站本身是一般的 **Astro** 專案。如果想調整顏色、版面或新增頁面，編輯 `src/` 中的檔案即可，網站會自動重新建置。
+最快速的改版方式是使用編輯器中的 **設定 → 主題（Settings → Theme）** 選擇器。
+網站本身也是一般的 **Astro** 專案：如果想調整顏色、版面或新增頁面，編輯 `src/` 中的檔案即可，網站會自動重新建置。
 
 詳細的設定與客製說明請見 **〔開發者指南〕(docs/developer-guide.md)**；如果發布時要求設定
 GitHub 登入，請見 **〔GitHub 登入設定指南〕**（[docs/github-oauth-setup.zh-Hant.md](docs/github-oauth-setup.zh-Hant.md)）。

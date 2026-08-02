@@ -1,0 +1,16 @@
+{
+  "site": {
+    "title": "Kantan HP",
+    "description": "A free, simple blog you can publish in minutes — no server, no database, no code.",
+    "author": "Kantan HP"
+  },
+  "theme": {
+    "preset": "paper"
+  },
+  "nav": [
+    { "label": "Home", "url": "/" },
+    { "label": "Blog", "url": "/blog" },
+    { "label": "About", "url": "/about" }
+  ],
+  "socials": []
+}

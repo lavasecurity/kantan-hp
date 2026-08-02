@@ -1,0 +1,12 @@
+---
+// Footer with a copyright line and social links (from the Settings tab).
+import { site } from '../config';
+import Socials from './Socials.astro';
+---
+
+<footer class="site-footer">
+  <div class="container inner">
+    <span>© {new Date().getFullYear()} {site.title}</span>
+    <Socials />
+  </div>
+</footer>

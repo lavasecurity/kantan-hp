@@ -18,6 +18,8 @@
 
 - 一个**免费运行的现成博客**（架设于 Cloudflare Pages）
 - 位于 `your-site.com/admin` 的**网页编辑器** — 写文章、加图片、按发布
+- **设置（Settings）选项卡** — 无需代码即可修改站点标题、标语和主题
+- 一篇已发布的欢迎文章，首次部署后网站就是"活的"
 - 编辑者不需要碰代码或 git，只需要浏览器。
 
 ---
@@ -57,14 +59,25 @@
 **《GitHub 登录设置指南》**（[docs/github-oauth-setup.zh-Hans.md](docs/github-oauth-setup.zh-Hans.md)）操作（仅需一次，约 5 分钟）。
 
 然后打开 `your-site.pages.dev/admin` → 按 **Blog → New Blog** → 输入标题和正文、上传图片，再按 **Publish**。约一分钟后就会发布到你的网站。
+（一篇欢迎文章已经发布，所以博客不会空空如也。）
 
 就是这样。其他一切都是选配。
 
 ---
 
+## 修改标题、标语和主题
+
+在编辑器中，**设置（Settings）** 选项卡会编辑 `src/config.json`：可修改站点**标题**、**标语**、
+**作者**、**主题**（从内置的 AstroPaper 配色方案中选择），以及**导航**链接。按 **Publish** 即可自动更新到线上网站 — 无需写代码。
+
+编辑**关于（About）**页面，请使用编辑器中的 **页面（Pages）** 选项卡。
+
+---
+
 ## 想改外观？
 
-网站本身是一般的 **Astro** 项目。如果想调整颜色、布局或新增页面，编辑 `src/` 中的文件即可，网站会自动重新构建。
+最快捷的改版方式是使用编辑器中的 **设置 → 主题（Settings → Theme）** 选择器。
+网站本身也是一般的 **Astro** 项目：如果想调整颜色、布局或新增页面，编辑 `src/` 中的文件即可，网站会自动重新构建。
 
 详细的设置与定制说明请见 **《开发者指南》(docs/developer-guide.md)**；如果发布时要求设置
 GitHub 登录，请见 **《GitHub 登录设置指南》**（[docs/github-oauth-setup.zh-Hans.md](docs/github-oauth-setup.zh-Hans.md)）。

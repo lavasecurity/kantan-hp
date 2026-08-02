@@ -1,0 +1,112 @@
+/* Theme presets — the AstroPaper color schemes, available from the Decap CMS
+ * **Settings** tab (`theme.preset` in src/config.json).
+ *
+ * Each preset is a light/dark pair of palettes. `data-theme` (set at runtime
+ * by the theme toggle) picks light or dark; `data-preset` (set from
+ * src/config.json at build time) picks which AstroPaper scheme to use.
+ *
+ * Palette values are AstroPaper's predefined color schemes
+ * (https://github.com/satnaing/astro-paper), CC-0/MIT style:
+ *   paper            = Paper Light + Paper Dark II (AstroPaper default)
+ *   kha-yan          = Kha-Yan light + Paper Dark II
+ *   nila             = Nila light + Paper Dark II
+ *   jadeite          = Jadeite light + Paper Dark II
+ *   pyit-tine-htaung = Pyit Tine Htaung light + Paper Dark II
+ *   deep-purple      = Paper Light + Deep Purple dark
+ *   ember            = Paper Light + Ember dark
+ *   espresso         = Paper Light + Espresso dark
+ */
+
+:root,
+[data-theme='light'] {
+  --background: #fdfdfd;
+  --foreground: #282728;
+  --accent: #006cac;
+  --accent-foreground: #ffffff;
+  --muted: #e6e6e6;
+  --muted-foreground: #6b7280;
+  --border: #ece9e9;
+}
+
+[data-theme='dark'] {
+  --background: #212737;
+  --foreground: #eaedf3;
+  --accent: #ff6b01;
+  --accent-foreground: #ffffff;
+  --muted: #343f60;
+  --muted-foreground: #afb9ca;
+  --border: #ab4b08;
+}
+
+/* Light schemes */
+
+[data-preset='kha-yan'][data-theme='light'] {
+  --background: #fefaec;
+  --foreground: #120e01;
+  --accent: #6e10cf;
+  --accent-foreground: #fefaec;
+  --muted: #dcdcdc;
+  --muted-foreground: #6b7280;
+  --border: #cdc4d6;
+}
+
+[data-preset='nila'][data-theme='light'] {
+  --background: #f6f6fb;
+  --foreground: #0c0c19;
+  --accent: #6760b4;
+  --accent-foreground: #f3f3f3;
+  --muted: #dddcea;
+  --muted-foreground: #54515b;
+  --border: #d8d6ec;
+}
+
+[data-preset='jadeite'][data-theme='light'] {
+  --background: #f6fcf7;
+  --foreground: #060b07;
+  --accent: #027c6d;
+  --accent-foreground: #ffffff;
+  --muted: #c9e4e2;
+  --muted-foreground: #6b7280;
+  --border: #d4e1df;
+}
+
+[data-preset='pyit-tine-htaung'][data-theme='light'] {
+  --background: #fffaf6;
+  --foreground: #060503;
+  --accent: #aa0215;
+  --accent-foreground: #ffcf75;
+  --muted: #ffdc98;
+  --muted-foreground: #54515b;
+  --border: #ffdc98;
+}
+
+/* Dark schemes */
+[data-preset='deep-purple'][data-theme='dark'] {
+  --background: #212737;
+  --foreground: #eaedf3;
+  --accent: #eb3fd3;
+  --accent-foreground: #1a0d1a;
+  --muted: #513f51;
+  --muted-foreground: #c09abc;
+  --border: #642451;
+}
+
+[data-preset='ember'][data-theme='dark'] {
+  --background: #1a1a1a;
+  --foreground: #f5efe4;
+  --accent: #ff3737;
+  --accent-foreground: #1a1a1a;
+  --muted: #38342f;
+  --muted-foreground: #a59a8c;
+  --border: #6f5648;
+}
+
+[data-preset='espresso'][data-theme='dark'] {
+  --background: #2f2f2f;
+  --foreground: #ebe5e1;
+  --accent: #ee781e;
+  --accent-foreground: #1a1a1a;
+  --muted: #4f4b44;
+  --muted-foreground: #ddbfa7;
+  --border: #6f5648;
+}

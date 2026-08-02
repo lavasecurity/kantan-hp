@@ -1,0 +1,23 @@
+---
+// A single blog post card, used on the homepage and the blog index.
+import type { CollectionEntry } from 'astro:content';
+import Datetime from './Datetime.astro';
+import Tag from './Tag.astro';
+
+interface Props {
+  post: CollectionEntry<'blog'>;
+}
+
+const { post } = Astro.props;
+---
+
+<li>
+  <a class="post-card" href={`/blog/${post.id}/`}>
+    <h3>{post.data.title}</h3>
+    <div class="card-meta">
+      <Datetime date={post.data.pubDate} />
+      {post.data.tags.map((tag) => <Tag text={tag} />)}
+    </div>
+    {post.data.description && <p>{post.data.description}</p>}
+  </a>
+</li>

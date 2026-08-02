@@ -1,0 +1,16 @@
+---
+// Renders a blog post's publication date as a <time> element.
+interface Props {
+  date: Date;
+}
+
+const { date } = Astro.props;
+
+const formatted = date.toLocaleDateString('en-US', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+---
+
+<time datetime={date.toISOString()}>{formatted}</time>

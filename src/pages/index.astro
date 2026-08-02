@@ -1,20 +1,44 @@
 ---
-// Homepage.
+// Homepage: styled hero (intro + CTA) plus the latest posts.
+import { getCollection } from 'astro:content';
+import { site } from '../config';
 import BaseLayout from '../layouts/BaseLayout.astro';
----
-<BaseLayout>
-  <section class="hero">
-    <div class="container">
-      <h1>Kantan HP</h1>
-      <p>
-        A lightweight <strong>Astro + Decap CMS</strong> blog starter, ready to
-        publish on Cloudflare Pages. Manage everything from the <code>/admin</code> dashboard.
-      </p>
-    </div>
-  </section>
+import Card from '../components/Card.astro';
 
-  <div class="container admin-note">
-    <strong>Editors:</strong> go to <a href="/admin">/admin</a>, log in with your
-    GitHub account, and start writing. Saved posts are published automatically.
+const posts = (await getCollection('blog'))
+  .filter((post) => !post.data.draft)
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 4);
+---
+
+<BaseLayout>
+  <div class="container">
+    <section class="hero">
+      <h1>{site.title}</h1>
+      <p class="tagline">{site.description}</p>
+      <div class="cta">
+        <a class="btn" href="/blog">Read the blog</a>
+        <a class="btn btn-ghost" href="/admin">Open the editor</a>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-title">
+        <h2>Latest posts</h2>
+        <a href="/blog">View all</a>
+      </div>
+      {
+        posts.length > 0 ? (
+          <ul class="post-list">
+            {posts.map((post) => <Card post={post} />)}
+          </ul>
+        ) : (
+          <p class="muted">
+            No posts yet — log in at <a href="/admin">/admin</a> and write your
+            first one.
+          </p>
+        )
+      }
+    </section>
   </div>
 </BaseLayout>

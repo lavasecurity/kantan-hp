@@ -1,43 +1,81 @@
 ---
-// Layout for every page: shared header, footer and <head>.
-// `frontmatter` is passed from the page; `Content` slots in the page body.
+// Base layout for every page: shared <head>, header, footer and content slot.
+// The theme preset (from the Settings tab) is baked in as `data-preset`;
+// light/dark is resolved at runtime before paint (FOUC-prevention script).
+import '../styles/global.css';
+import { site, theme } from '../config';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Main from '../components/Main.astro';
+
 interface Props {
   title?: string;
   description?: string;
 }
+
 const { title, description } = Astro.props;
-const { site } = await import('../config');
-const pageTitle = title
-  ? `${title} — ${site.title}`
-  : site.title;
+const pageTitle = title ? `${title} — ${site.title}` : site.title;
 const pageDescription = description ?? site.description;
+
+// Canonical/og:url are only meaningful once a real site URL is configured
+// (PUBLIC_SITE_URL or site.url). Until then `site` falls back to the
+// placeholder, which would point crawlers at a nonexistent domain — so omit
+// these tags instead of emitting the placeholder.
+const resolvedSite = import.meta.env.SITE ?? '';
+const hasRealSite =
+  Boolean(Astro.site) && !resolvedSite.includes('your-site.example.com');
+const canonicalURL = hasRealSite
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : undefined;
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="en" data-preset={theme.preset}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
+    <meta name="title" content={pageTitle} />
     <meta name="description" content={pageDescription} />
+    <meta name="author" content={site.author} />
     <meta name="generator" content={Astro.generator} />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="stylesheet" href="/global.css" />
+    {canonicalURL && <link rel="canonical" href={canonicalURL} />}
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />    <link rel="alternate" type="application/rss+xml" title={site.title} href="/rss.xml" />
+    <meta name="theme-color" content="" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.title} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    {canonicalURL && <meta property="og:url" content={canonicalURL} />}
+    <meta name="twitter:card" content="summary" />
+
+    <!--
+      Inline FOUC-prevention script: applies the stored (or OS-preferred)
+      light/dark theme to <html> before the browser paints.
+    -->
+    <script is:inline>
+      (function () {
+        var stored = null;
+        try {
+          stored = localStorage.getItem('theme');
+        } catch (e) {}
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var theme = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
   </head>
   <body>
-    <header class="site-header">
-      <div class="container">
-        <a class="brand" href="/">{site.title}</a>
-        <nav>
-          <a href="/blog">Blog</a>
-        </nav>
-      </div>
-    </header>
-    <main>
+    <a class="skip-link" href="#main-content">Skip to content</a>
+    <Header />
+    <Main>
       <slot />
-    </main>
-    <footer class="site-footer">
-      <div class="container">© {new Date().getFullYear()} {site.title}</div>
-    </footer>
+    </Main>
+    <Footer />
+    <script>
+      import '../scripts/theme';
+    </script>
   </body>
 </html>

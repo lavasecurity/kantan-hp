@@ -2,8 +2,9 @@
 #
 # Forks: the only thing you MUST change here is `repo` — set it to your own
 # fork, e.g. your-username/kantan-hp. Everything else is handled automatically:
-# `base_url` and `auth_endpoint` are injected at runtime by admin/index.html so
-# the OAuth flow works on any fork or custom domain without further edits.
+# `base_url` and `auth_endpoint` are injected at runtime by the kantan panel
+# for provisioned sites (or by admin/index.html for classic forks) so the OAuth
+# flow works on any fork or custom domain without further edits.
 
 backend:
   name: github
@@ -15,6 +16,7 @@ media_folder: public/images
 public_folder: /images
 
 collections:
+  # ---- Blog posts -----------------------------------------------------------
   - name: blog
     label: Blog
     folder: src/content/blog
@@ -32,3 +34,67 @@ collections:
       - { label: Tags, name: tags, widget: list, default: [] }
       - { label: Draft, name: draft, widget: boolean, default: false }
       - { label: Body, name: body, widget: markdown }
+
+  # ---- Standalone pages (About, etc.) --------------------------------------
+  - name: pages
+    label: Pages
+    files:
+      - name: about
+        label: About
+        file: src/content/pages/about.md
+        fields:
+          - { label: Title, name: title, widget: string }
+          - { label: Description, name: description, widget: text, required: false }
+          - { label: Body, name: body, widget: markdown }
+
+  # ---- Site settings (src/config.json) -------------------------------------
+  # The "lightweight WordPress" panel: edits below land on the live site on the
+  # next deploy, no code touched.
+  #
+  # NOTE: src/config.json is a plain JSON object. `site` and `theme` are object
+  # widgets so their edits bind to the real nested keys (Decap treats a flat
+  # field name as a literal key, so `site.title` would not nest).
+  - name: settings
+    label: Settings
+    files:
+      - name: settings
+        label: Site settings
+        file: src/config.json
+        format: json
+        fields:
+          - label: Site
+            name: site
+            widget: object
+            fields:
+              - { label: Site title, name: title, widget: string }
+              - { label: Tagline, name: description, widget: text }
+              - { label: Author, name: author, widget: string, required: false }
+          - label: Theme
+            name: theme
+            widget: object
+            fields:
+              - label: Theme preset
+                name: preset
+                widget: select
+                options:
+                  - { label: Paper (default), value: paper }
+                  - { label: Kha-Yan, value: kha-yan }
+                  - { label: Nila, value: nila }
+                  - { label: Jadeite, value: jadeite }
+                  - { label: Pyit Tine Htaung, value: pyit-tine-htaung }
+                  - { label: Deep Purple, value: deep-purple }
+                  - { label: Ember, value: ember }
+                  - { label: Espresso, value: espresso }
+          - label: Navigation
+            name: nav
+            widget: list
+            fields:
+              - { label: Label, name: label, widget: string }
+              - { label: URL, name: url, widget: string }
+          - label: Social links
+            name: socials
+            widget: list
+            required: false
+            fields:
+              - { label: Name, name: name, widget: string }
+              - { label: URL, name: url, widget: string }

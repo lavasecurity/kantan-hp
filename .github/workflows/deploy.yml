@@ -31,6 +31,10 @@ jobs:
     runs-on: ubuntu-latest
     env:
       CF_PAGES_PROJECT: ${{ secrets.CF_PAGES_PROJECT }}
+      # Optional: set the site's canonical URL (used by RSS/sitemap). The kantan
+      # panel can set this as a repository variable (PUBLIC_SITE_URL) when it
+      # provisions a site; astro.config.mjs prefers it over config.json.
+      PUBLIC_SITE_URL: ${{ vars.PUBLIC_SITE_URL }}
     steps:
       - name: Check for panel-provisioned credentials
         id: gate
@@ -41,10 +45,10 @@ jobs:
             echo "skip=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
         if: steps.gate.outputs.skip != 'true'
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         if: steps.gate.outputs.skip != 'true'
         with:
           node-version: 22

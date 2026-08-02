@@ -1,10 +1,11 @@
 ---
-// Individual blog post page.
-import { getCollection, render } from 'astro:content';
-import BaseLayout from '../../layouts/BaseLayout.astro';
+// Individual blog post page. Drafts are not built (they only exist in the
+// editor), so the site and the editor show the same set of posts.
+import { getCollection } from 'astro:content';
+import PostLayout from '../../layouts/PostLayout.astro';
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
+  const posts = (await getCollection('blog')).filter((post) => !post.data.draft);
   return posts.map((post) => ({
     params: { slug: post.id },
     props: { post },
@@ -12,32 +13,6 @@ export async function getStaticPaths() {
 }
 
 const { post } = Astro.props;
-const { Content } = await render(post);
 ---
-<BaseLayout title={post.data.title} description={post.data.description}>
-  <article class="post">
-    <div class="container" style="padding-top:2.5rem">
-      <a class="muted" href="/blog">← Back to blog</a>
-      <header>
-        <h1>{post.data.title}</h1>
-        <p class="post-meta">
-          <time datetime={post.data.pubDate.toISOString()}>
-            {post.data.pubDate.toDateString()}
-          </time>
-          {post.data.tags.length > 0 && (
-            <>
-              {"  ·  "}
-              {post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
-            </>
-          )}
-        </p>
-        {post.data.heroImage && (
-          <img src={post.data.heroImage} alt={post.data.title} />
-        )}
-      </header>
-      <div class="post-body">
-        <Content />
-      </div>
-    </div>
-  </article>
-</BaseLayout>
+
+<PostLayout post={post} />

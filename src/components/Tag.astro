@@ -1,0 +1,10 @@
+---
+// A small pill label for a post tag.
+interface Props {
+  text: string;
+}
+
+const { text } = Astro.props;
+---
+
+<span class="tag">#{text}</span>

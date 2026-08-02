@@ -18,6 +18,8 @@ through a friendly web dashboard — no coding, no server, no database to manage
 
 - A **working blog** for free (hosted on Cloudflare Pages)
 - A **web editor** at `your-site.com/admin` — write posts, add pictures, hit publish
+- A **Settings** tab to change the site title, tagline, and theme — no code
+- A welcome post already published, so your site is alive from the first deploy
 - Editors don't need to touch code or git. Just a browser.
 
 ---
@@ -55,15 +57,27 @@ minutes, one time.
 
 Then open `your-site.pages.dev/admin`, click **Blog → New Blog**, write your title and
 text, upload a picture, and press **Publish**. It goes live on your site within about a
-minute.
+minute. (A short welcome post is already published, so the blog is never empty.)
 
 That's it. Everything else is optional.
 
 ---
 
+## Change the title, tagline, and theme
+
+In the editor, the **Settings** tab edits `src/config.json`: change the site **title**,
+**tagline**, **author**, the **theme** (choose from the built-in AstroPaper color schemes),
+or the **navigation** links. Press **Publish** and the live site updates automatically —
+no code required.
+
+To edit the **About** page, use the editor's **Pages** tab.
+
+---
+
 ## Want to change how it looks?
 
-The site itself is a normal **Astro** project. If you (or someone technical) want to
+The quickest way to restyle the site is the **Settings → Theme** picker in the editor.
+The site itself is also a normal **Astro** project: if you (or someone technical) want to
 tweak colors, layout, or add pages, edit the files in `src/` and the site rebuilds
 automatically.
 
