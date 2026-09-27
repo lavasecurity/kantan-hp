@@ -38,6 +38,8 @@ Decap CMS はあなたの代わりに Git リポジトリへコンテンツを�
 
 ## A. ワンタイム設定アクション（推奨）
 
+**ランナーの事前設定：** このアクションを使う前に、自分の Fork に [Ubicloud の GitHub 連携](https://www.ubicloud.com/docs/github-actions-integration/quickstart)をインストールし、そのリポジトリを有効にしてください。Fork は元のランナー設定を引き継ぎません。`ubicloud-standard-2` が利用できない場合、実行は待機したままになります。ランナーを設定しない場合は、下の方法 B（Cloudflare での手動設定）を利用してください。
+
 このリポジトリには、認証情報を Cloudflare Pages プロジェクトに書き込み、再デプロイする
 ワークフロー（`.github/workflows/decap-oauth-setup.yml`）が含まれています。認証情報は
 **リポジトリシークレット**として保存するため（ログに漏れません）、一度だけ追加します：
