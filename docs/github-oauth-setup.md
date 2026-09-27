@@ -39,8 +39,6 @@ Both start the same way: create a GitHub OAuth App.
 
 ## A. One-time setup Action (recommended)
 
-**Runner prerequisite:** Before using this Action, install the [Ubicloud GitHub integration](https://www.ubicloud.com/docs/github-actions-integration/quickstart) for your own fork and enable that repository. Forks do not inherit the upstream runner installation. These workflows require `ubicloud-standard-2`; without Ubicloud they stay queued. If you do not want to set up a runner, use method B below (manual Cloudflare setup).
-
 This repo ships a workflow (`.github/workflows/decap-oauth-setup.yml`) that pushes the
 two credentials into your Cloudflare Pages project and redeploys. The credentials are
 stored as **repository secrets** (so they're never logged), added once:
