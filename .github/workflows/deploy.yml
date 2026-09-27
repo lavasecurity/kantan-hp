@@ -28,7 +28,7 @@ concurrency:
 
 jobs:
   deploy:
-    runs-on: ubicloud-standard-2
+    runs-on: ubuntu-latest
     env:
       CF_PAGES_PROJECT: ${{ secrets.CF_PAGES_PROJECT }}
       # Optional: set the site's canonical URL (used by RSS/sitemap). The kantan
