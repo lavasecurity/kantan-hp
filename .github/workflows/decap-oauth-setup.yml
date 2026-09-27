@@ -31,7 +31,7 @@ on:
 jobs:
   set-cloudflare-env:
     name: Set Cloudflare Pages env vars
-    runs-on: ubuntu-latest
+    runs-on: ubicloud-standard-2
     env:
       # Secrets can't be referenced directly in `if:` conditionals, so expose
       # the optional deploy hook via a job-level env var.
