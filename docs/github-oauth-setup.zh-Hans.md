@@ -34,8 +34,6 @@ Decap CMS 会代表你将内容提交到 Git 存储库，因此它需要能以�
 
 ## A. 一次性设置 Action（推荐）
 
-**运行器前置设置：** 使用此 Action 前，请为自己的 Fork 安装 [Ubicloud GitHub 集成](https://www.ubicloud.com/docs/github-actions-integration/quickstart)并启用该存储库。Fork 不会继承上游的运行器设置。工作流程需要 `ubicloud-standard-2`；未设置 Ubicloud 时会持续排队。如果不想设置运行器，请使用下方方法 B（手动设置 Cloudflare）。
-
 本存储库内附一个工作流程（`.github/workflows/decap-oauth-setup.yml`），会把两个认证信息
 写入你的 Cloudflare Pages 项目并重新部署。认证信息会以**存储库密钥**存储（不会出现在日志中），
 只需添加一次：
